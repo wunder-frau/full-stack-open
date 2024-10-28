@@ -18,7 +18,6 @@ const Button = ({ text, onClick }) => {
 }
 
 const App = () => {
-  const titleGiveFeedback = "give feedback"
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
@@ -35,10 +34,11 @@ const App = () => {
 
   return (
     <div>
-      <Title title={titleGiveFeedback}/>
+      <Title title="give feedback"/>
       <Button text = "good" onClick={() => handleOnGood()}></Button>
       <Button text = "neutral" onClick={() => handleOnNeutral()}></Button>
       <Button text = "neutral" onClick={() => handleOnBad()}></Button>
+      <Title title="statistics"/>
       <div>
         <p>good: {good}</p>
         <p>neutral: {neutral}</p>
