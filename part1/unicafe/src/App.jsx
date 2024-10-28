@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 
 const Title = ({ title }) => {
 	return (
@@ -35,16 +34,23 @@ const Statistics = ({good, neutral, bad}) => {
   )
 }
 
-const StatisticLine = ({text, mark}) => {
+const StatisticLine = ({ text, mark }) => {
   if (text === "positive") {
-    return <p>{text}: {mark} %</p>;
+    return (
+      <tr>
+        <td>{text}:</td>
+        <td>{mark} %</td>
+      </tr>
+    );
+  } else {
+    return (
+      <tr>
+        <td>{text}:</td>
+        <td>{mark}</td>
+      </tr>
+    );
   }
-  return (
-  <div>
-    <p>{text}: {mark}</p>
-  </div>
-  )
-}
+};
 
 const App = () => {
   const [good, setGood] = useState(0)
