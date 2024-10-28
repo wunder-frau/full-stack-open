@@ -20,7 +20,7 @@ const App = () => {
   }
   return (
     <div>
-      <p>{selected}</p>
+      <p>{selected !== 0 ? selected : ""}</p>
       <button onClick={handleGetRandomAnecdote}>next anecdote</button>
     </div>
   )
