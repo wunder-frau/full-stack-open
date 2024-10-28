@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import './App.css'
 
+const Button = ({text, onClick}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -14,14 +22,26 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-  const handleGetRandomAnecdote = () => {
+  const [votes, setVote] = useState(Array(anecdotes.length).fill(0))
+  const handleVote = () => {
+    const copy = [...votes];
+    copy[selected] += 1;
+    console.log("selected:", selected)
+    console.log("copy[selected]", copy)
+    console.log("Points array:", votes)
+    setVote(copy);
+  }
+  const handleRandomIndex = () => {
     const random = Math.floor(Math.random() * anecdotes.length);
-    setSelected(anecdotes[random]);
+    setSelected(random);
   }
   return (
     <div>
-      <p>{selected !== 0 ? selected : ""}</p>
-      <button onClick={handleGetRandomAnecdote}>next anecdote</button>
+      <p>{anecdotes[selected] !== 0 ? anecdotes[selected] : ""}</p>
+      <p>{votes[selected] > 1 ? `has ${votes[selected]} votes` : `has ${votes[selected]} vote`}</p>
+      <Button text="vote" onClick={handleVote} />
+      <Button text="next anecdote" onClick={handleRandomIndex} />
+      <p>{anecdotes[votes.findIndex(vote => vote === Math.max(...votes))]}</p>
     </div>
   )
 }
