@@ -24,13 +24,15 @@ const Statistics = ({good, neutral, bad}) => {
   const average = total > 0 ? (good - bad) / total : 0;
   const positive = total > 0 ? good/total * 100 : 0;
   return (
-  <div>
+    <table>
+      <tbody>
     <StatisticLine text="good" mark={good} />
     <StatisticLine text="neutral" mark={neutral} />
     <StatisticLine text="bad" mark={bad} />
     <StatisticLine text="avarage" mark={average} />
     <StatisticLine text="positive" mark={positive} />
-  </div>
+    </tbody>
+  </table>
   )
 }
 
