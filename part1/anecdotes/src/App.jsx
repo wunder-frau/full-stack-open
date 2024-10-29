@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import './App.css'
 
+const Title = ({ title }) => {
+  return (
+    <div>
+      <h1>{title}</h1>
+    </div>
+  )
+}
+
 const Button = ({text, onClick}) => {
   return (
     <button onClick={onClick}>
@@ -26,9 +34,6 @@ const App = () => {
   const handleVote = () => {
     const copy = [...votes];
     copy[selected] += 1;
-    console.log("selected:", selected)
-    console.log("copy[selected]", copy)
-    console.log("Points array:", votes)
     setVote(copy);
   }
   const handleRandomIndex = () => {
@@ -37,10 +42,12 @@ const App = () => {
   }
   return (
     <div>
+      <Title title="Anecdote of the day" />
       <p>{anecdotes[selected] !== 0 ? anecdotes[selected] : ""}</p>
       <p>{votes[selected] > 1 ? `has ${votes[selected]} votes` : `has ${votes[selected]} vote`}</p>
       <Button text="vote" onClick={handleVote} />
       <Button text="next anecdote" onClick={handleRandomIndex} />
+      <Title title="Anecdote with most votes" />
       <p>{anecdotes[votes.findIndex(vote => vote === Math.max(...votes))]}</p>
     </div>
   )
