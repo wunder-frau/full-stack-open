@@ -46,7 +46,6 @@ const App = () => {
       ]
     }
   ]
-  {console.log(courses[0].name)}
   return <Course courses={courses} />
 }
 

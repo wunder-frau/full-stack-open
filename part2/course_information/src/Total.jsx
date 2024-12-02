@@ -1,5 +1,4 @@
 const Total = ({ course }) => {
-    {console.log("llllppppp: ", course)}
     const total = course.reduce((acc, item) => {
 		acc += item.exercises;
         return acc;
