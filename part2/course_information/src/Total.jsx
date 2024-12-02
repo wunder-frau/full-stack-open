@@ -1,8 +1,8 @@
 const Total = ({ course }) => {
-	let total = 0;
-	course.parts.map((item) => {
-		total += item.exercises;
-	});
+    const total = course.parts.reduce((acc, item) => {
+		acc += item.exercises;
+        return acc;
+	}, 0);
 	return (
 		<div>
 			<p>Number of exercises {total}</p> 

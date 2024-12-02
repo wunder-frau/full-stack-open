@@ -3,7 +3,6 @@ import Content from './Content.jsx'
 import Total from './Total.jsx'
 
 const Course = ({course}) => {
-    {console.log(course.parts[0].exercises)}
     return (
         <div>
             <Header course={course.name} />
