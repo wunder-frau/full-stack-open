@@ -11,17 +11,24 @@ function App() {
     setNewName(e.target.value)
   }
 
-  // const handleAddPerson =(e)=> {
-  //   e.preventDefault();
-  // }
+  const handleAddPerson =(e)=> {
+    e.preventDefault();
+    const newPerson = {name: newName}
+    setPersons([...persons, newPerson])
+    setNewName("")
+  }
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>debug: {newName}</div>
-      <form>
+      <form  onSubmit={handleAddPerson}>
         <div>
-          name: <input 
+          name: <input
+          type="text"
+          id="name"
+          name="name"
+          required
           value={newName}
+          autoComplete="off"
           onChange={handleNameInput}/>
         </div>
         <div>
