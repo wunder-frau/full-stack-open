@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import './App.css'
-import Persons from './Persons.jsx'
-import Filter from './Filter.jsx'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -41,7 +39,8 @@ function App() {
     setNewNumber("")
   }
 
-    const filtered = persons.filter(person => person.name.toLowerCase().includes(inputFilter.toLowerCase()))
+
+    const filteredNames = persons.filter(person => person.name.toLowerCase().includes(inputFilter.toLowerCase()))
 
   return (
     <div>
@@ -57,13 +56,6 @@ function App() {
           onChange={handleFilterInput}/>
         </div>
       </form>
-      <h2>Results</h2>
-      <ul>
-        {filtered.map((person, index) => (
-          <li key={index}>{person.name}</li>
-        ))}
-      </ul>
-      <Filter persons={persons} newName={newName}/>
       <h3>Add a new</h3>
       <form  onSubmit={handleAddPerson}>
         <div>
@@ -91,7 +83,11 @@ function App() {
         </div>
       </form>
       <h2>Numbers</h2>
-        <Persons persons={persons} />
+      <ul>
+        {filteredNames.map((person, index) => (
+          <li key={index}>{person.name}-{person.number}</li>
+        ))}
+      </ul>
     </div>
   )
 }
