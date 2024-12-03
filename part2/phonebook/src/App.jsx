@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import './App.css'
+import InputField from './InputField.jsx'
+import PersonForm from './PersonForm.jsx'
+import Persons from './Persons.jsx'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -45,49 +48,21 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form >
-        <div>
-        filter shown with <input
-          type="text"
-          id="filter"
-          name="filter"
-          value={inputFilter}
-          autoComplete="off"
-          onChange={handleFilterInput}/>
-        </div>
-      </form>
+      <InputField
+        type="text"
+        label='filter shown with'
+        value={inputFilter}
+        onChange={handleFilterInput}
+        autoComplete="off"/>
       <h3>Add a new</h3>
-      <form  onSubmit={handleAddPerson}>
-        <div>
-          name: <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          value={newName}
-          autoComplete="off"
-          onChange={handleNameInput}/>
-        </div>
-        <div>
-          number: <input
-          type="number"
-          id="number"
-          name="number"
-          required
-          value={newNumber}
-          autoComplete="off"
-          onChange={handleNumberInput}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        handleAddPerson={handleAddPerson}
+        newName={newName}
+        handleNameInput={handleNameInput}
+        newNumber={newNumber}
+        handleNumberInput={handleNumberInput}/>
       <h2>Numbers</h2>
-      <ul>
-        {filteredNames.map((person, index) => (
-          <li key={index}>{person.name}-{person.number}</li>
-        ))}
-      </ul>
+      <Persons filteredNames={filteredNames}/>
     </div>
   )
 }

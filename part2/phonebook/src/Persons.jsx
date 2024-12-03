@@ -1,8 +1,8 @@
-const Persons =({persons})=> {
+const Persons =({filteredNames})=> {
     return (
         <div>
             <ul>
-                {persons.map((person, i) => (
+                {filteredNames.map((person, i) => (
                     <li key={i}>
                         <span className="person">{person.name}</span>
                         <span>{person.number}</span>
