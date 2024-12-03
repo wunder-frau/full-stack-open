@@ -12,7 +12,6 @@ function App() {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [filterr, setFilter] = useState([])
   const [inputFilter, setInputFilter] = useState('')
 
   const handleFilterInput =(e)=> {
@@ -42,33 +41,25 @@ function App() {
     setNewNumber("")
   }
 
-  const handleAddFilter =(e)=> {
-    e.preventDefault();
     const filtered = persons.filter(person => person.name.toLowerCase().includes(inputFilter.toLowerCase()))
-    setFilter(filtered)
-    setInputFilter("")
-  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form  onSubmit={handleAddFilter}>
+      <form >
         <div>
         filter shown with <input
           type="text"
           id="filter"
           name="filter"
-          required
           value={inputFilter}
           autoComplete="off"
           onChange={handleFilterInput}/>
         </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
       </form>
       <h2>Results</h2>
       <ul>
-        {filterr.map((person, index) => (
+        {filtered.map((person, index) => (
           <li key={index}>{person.name}</li>
         ))}
       </ul>
