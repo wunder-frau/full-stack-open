@@ -14,7 +14,10 @@ function App() {
   const handleAddPerson =(e)=> {
     e.preventDefault();
     const newPerson = {name: newName}
-    setPersons([...persons, newPerson])
+    if (persons.every(person => person.name !== newName))
+      setPersons([...persons, newPerson])
+    else
+      alert(`${newName} is already added to phonebook`)
     setNewName("")
   }
   return (
