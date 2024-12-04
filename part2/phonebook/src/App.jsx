@@ -22,6 +22,19 @@ function App() {
       });
   }, [])
 
+  const deletePerson =(person)=> {
+    if (window.confirm(`Delete ${person.name}?`)) {
+    personsService
+      .remove(person.id)
+      .then(() => {
+        setPersons(persons.filter(p => p.id !== person.id))
+      })
+      .catch(error => {
+        console.error('Error deleting person:', error);
+      });
+    }
+  }
+
   const handleFilterInput =(e)=> {
     setInputFilter(e.target.value)
   }
@@ -79,7 +92,7 @@ function App() {
         newNumber={newNumber}
         handleNumberInput={handleNumberInput}/>
       <h2>Numbers</h2>
-      <Persons filteredNames={filteredNames}/>
+      <Persons filteredNames={filteredNames} deletePerson={deletePerson}/>
     </div>
   )
 }

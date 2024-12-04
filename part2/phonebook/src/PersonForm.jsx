@@ -1,5 +1,5 @@
 import InputField from './InputField.jsx'
-import SubmitButton from './SubmitButton.jsx'
+import Button from './Button.jsx'
 const PersonForm =({handleAddPerson, newName, handleNameInput, newNumber, handleNumberInput})=> {
     return (
     <form  onSubmit={handleAddPerson}>
@@ -15,7 +15,7 @@ const PersonForm =({handleAddPerson, newName, handleNameInput, newNumber, handle
             value={newNumber}
             onChange={handleNumberInput}
             autoComplete="off"/>
-        <SubmitButton label='add'/>
+        <Button type='submit' label='add'/>
     </form>
     )
 }
