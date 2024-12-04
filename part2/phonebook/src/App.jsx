@@ -38,16 +38,19 @@ function App() {
   const handleAddPerson =(e)=> {
     e.preventDefault();
     const newPerson = {name: newName, number: newNumber}
-    if (persons.every(person => person.name !== newName))
-      setPersons([...persons, newPerson])
-    else
-      alert(`${newName} is already added to phonebook`)
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        if (persons.every(person => person.name !== newName))
+          setPersons([...response.data, newPerson])
+        else
+          alert(`${newName} is already added to phonebook`)
+      })
     setNewName("")
     setNewNumber("")
   }
 
-
-    const filteredNames = persons.filter(person => person.name.toLowerCase().includes(inputFilter.toLowerCase()))
+  const filteredNames = persons.filter(person => person.name.toLowerCase().includes(inputFilter.toLowerCase()))
 
   return (
     <div>
