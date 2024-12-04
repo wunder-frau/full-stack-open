@@ -3,7 +3,7 @@ import './App.css'
 import InputField from './InputField.jsx'
 import PersonForm from './PersonForm.jsx'
 import Persons from './Persons.jsx'
-import axios from 'axios'
+import personsService from './personsService.jsx'
 
 function App() {
   const [persons, setPersons] = useState([])
@@ -12,11 +12,14 @@ function App() {
   const [inputFilter, setInputFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    personsService
+      .getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
+      .catch(error => {
+        console.error('Error fetching persons:', error);
+      });
   }, [])
 
   const handleFilterInput =(e)=> {
@@ -38,19 +41,26 @@ function App() {
   const handleAddPerson =(e)=> {
     e.preventDefault();
     const newPerson = {name: newName, number: newNumber}
-    axios
-      .post('http://localhost:3001/persons', newPerson)
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`);
+      return ;
+    }
+    personsService
+      .create(newPerson)
       .then(response => {
-        if (persons.every(person => person.name !== newName))
-          setPersons([...response.data, newPerson])
-        else
-          alert(`${newName} is already added to phonebook`)
+        {console.log(response)}
+        {console.log(persons)}
+          setPersons([...persons, response])
+          {console.log(persons)}
+          setNewName("")
+          setNewNumber("")
       })
-    setNewName("")
-    setNewNumber("")
+      .catch(error => {
+        console.error('Error adding person:', error);
+      });
   }
 
-  const filteredNames = persons.filter(person => person.name.toLowerCase().includes(inputFilter.toLowerCase()))
+  const filteredNames = persons.filter(person => person.name && person.name.toLowerCase().includes(inputFilter.toLowerCase()))
 
   return (
     <div>
