@@ -55,8 +55,23 @@ function App() {
     e.preventDefault();
     const newPerson = {name: newName, number: newNumber}
     if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return ;
+      if (confirm(`Delete ${persons.name}?`))
+      {
+        {console.log('>>', persons)}
+        personsService
+          .update(persons, newPerson)
+          .then(response => {
+            setPersons(persons.map(p => p.id === persons.id ? response.data : p))
+            {console.log('1', response)}
+            {console.log('2', newPerson.id)}
+            {console.log('3', newPerson)}
+            setNewName("")
+            setNewNumber("")
+        })
+        .catch(error => {
+          console.error('Error updating person:', error);
+        });
+      }
     }
     personsService
       .create(newPerson)
