@@ -55,15 +55,16 @@ function App() {
     e.preventDefault();
     const newPerson = {name: newName, number: newNumber}
     if (persons.some(person => person.name === newName)) {
-      if (confirm(`Delete ${persons.name}?`))
-      {
-        {console.log('>>', persons)}
+      if (confirm(`${persons.name} is already added to phonebook,
+        replace the old number with a new one?`))
+        {
+        const person = persons.find(p => p && p.name === newName);
+        console.log(">>>>", person)
         personsService
-          .update(persons, newPerson)
+          .update(person.id, newPerson)
           .then(response => {
-            setPersons(persons.map(p => p.id === persons.id ? response.data : p))
+            setPersons(persons.map(p => p.id == persons.id ? response.data : p))
             {console.log('1', response)}
-            {console.log('2', newPerson.id)}
             {console.log('3', newPerson)}
             setNewName("")
             setNewNumber("")

@@ -14,10 +14,10 @@ const remove =(id)=> {
   return axios.delete(`${baseUrl}/${id}`).then(response => response.data)
 }
 
-const update =(persons, updatedObj)=> {
-  {console.log('4', persons.id)}
+const update =(id, updatedObj)=> {
+  {console.log('4', id)}
   {console.log('5', updatedObj)}
-  return axios.put(`${baseUrl}/${persons.id}`, updatedObj).then(response => response.data)
+  return axios.put(`${baseUrl}/${id}`, updatedObj).then(response => response.data)
 }
 
 export default {
