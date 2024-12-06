@@ -51,42 +51,44 @@ function App() {
     setNewNumber(e.target.value)
   }
 
-  const handleAddPerson =(e)=> {
+  const addPerson =(newPerson)=> {
+    personsService
+    .create(newPerson)
+    .then(response => {
+        setPersons([...persons, response])
+        setNewName("")
+        setNewNumber("")
+    })
+    .catch(error => {
+      console.error('Error adding person:', error);
+    });
+  }
+
+  const updatePerson =(person, newPerson)=> {
+    personsService
+      .update(person.id, newPerson)
+      .then(response => {
+        setPersons(persons.map(p => p.id === person.id ? response : p))
+        setNewName("")
+        setNewNumber("")
+    })
+    .catch(error => {
+      console.error('Error updating person:', error);
+    });
+  }
+
+  const onSubmit =(e)=> {
     e.preventDefault();
     const newPerson = {name: newName, number: newNumber}
     if (persons.some(person => person.name === newName)) {
-      if (confirm(`${persons.name} is already added to phonebook,
-        replace the old number with a new one?`))
+      const person = persons.find(p =>  p.name === newName);
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
         {
-        const person = persons.find(p => p && p.name === newName);
-        console.log(">>>>", person)
-        personsService
-          .update(person.id, newPerson)
-          .then(response => {
-            setPersons(persons.map(p => p.id == persons.id ? response.data : p))
-            {console.log('1', response)}
-            {console.log('3', newPerson)}
-            setNewName("")
-            setNewNumber("")
-        })
-        .catch(error => {
-          console.error('Error updating person:', error);
-        });
+        updatePerson(person, newPerson);
       }
     }
-    personsService
-      .create(newPerson)
-      .then(response => {
-        {console.log(response)}
-        {console.log(persons)}
-          setPersons([...persons, response])
-          {console.log(persons)}
-          setNewName("")
-          setNewNumber("")
-      })
-      .catch(error => {
-        console.error('Error adding person:', error);
-      });
+    else
+      addPerson(newPerson);
   }
 
   const filteredNames = persons.filter(person => person.name && person.name.toLowerCase().includes(inputFilter.toLowerCase()))
@@ -99,10 +101,10 @@ function App() {
         label='filter shown with'
         value={inputFilter}
         onChange={handleFilterInput}
-        autoComplete="off"/>
+        id="filter"/>
       <h3>Add a new</h3>
       <PersonForm
-        handleAddPerson={handleAddPerson}
+        onSubmit={onSubmit}
         newName={newName}
         handleNameInput={handleNameInput}
         newNumber={newNumber}

@@ -1,4 +1,4 @@
-const InputField =({ label, type, value, onChange })=> {
+const InputField =({ label, type, value, onChange, id })=> {
     return (
         <div>
         <label>
@@ -8,6 +8,7 @@ const InputField =({ label, type, value, onChange })=> {
             value={value}
             onChange={onChange}
             autoComplete="off"
+            id={id}
             required
           />
         </label>

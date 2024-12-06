@@ -15,8 +15,6 @@ const remove =(id)=> {
 }
 
 const update =(id, updatedObj)=> {
-  {console.log('4', id)}
-  {console.log('5', updatedObj)}
   return axios.put(`${baseUrl}/${id}`, updatedObj).then(response => response.data)
 }
 
