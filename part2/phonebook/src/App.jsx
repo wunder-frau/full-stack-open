@@ -1,130 +1,145 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import InputField from './InputField.jsx'
-import PersonForm from './PersonForm.jsx'
-import Persons from './Persons.jsx'
-import personsService from './personsService.jsx'
-import Error from './Error.jsx'
-function App() {
-  const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [inputFilter, setInputFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+import { useState, useEffect } from 'react';
+import './App.css';
+import InputField from './InputField.jsx';
+import PersonForm from './PersonForm.jsx';
+import Persons from './Persons.jsx';
+import personsService from './personsService.jsx';
+import Notification from './Notification.jsx';
 
-  const handleError = (message) => {
-    setErrorMessage(message);
+function App() {
+  const [persons, setPersons] = useState([]);
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [inputFilter, setInputFilter] = useState('');
+  const [message, setMessage] = useState({ text: null, type: null });
+
+  const showMessage = (text, type) => {
+    setMessage({ text, type });
     setTimeout(() => {
-      setErrorMessage(null);
+      setMessage({ text: null, type: null });
     }, 5000);
   };
 
   useEffect(() => {
     personsService
       .getAll()
-      .then(response => {
-        setPersons(response)
+      .then((response) => {
+        setPersons(response);
       })
-      .catch(error => {
-        handleError('Error fetching persons');
+      .catch(() => {
+        showMessage('Error fetching persons', 'error');
       });
-  }, [])
+  }, []);
 
-  const deletePerson =(person)=> {
+  const deletePerson = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
-    personsService
-      .remove(person.id)
-      .then(() => {
-        setPersons(persons.filter(p => p.id !== person.id))
-      })
-      .catch(error => {
-        setErrorMessage('Error deleting person:');
-      });
+      personsService
+        .remove(person.id)
+        .then(() => {
+          setPersons(persons.filter((p) => p.id !== person.id));
+          showMessage(`${person.name} was deleted.`, 'success');
+        })
+        .catch(() => {
+          showMessage('Error deleting person.', 'error');
+        });
     }
-  }
+  };
 
-  const handleFilterInput =(e)=> {
-    setInputFilter(e.target.value)
-    handleError(`Not found.`);
-  }
+  const handleFilterInput = (e) => {
+    setInputFilter(e.target.value);
+  };
 
-  const handleNameInput =(e)=> {
+  const handleNameInput = (e) => {
     if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
       setNewName(e.target.value);
     } else {
-     handleError('Invalid input, only alphabetical characters and spaces are allowed.');
+      showMessage('Invalid input: Only alphabetical characters and spaces are allowed.', 'error');
     }
-  }
+  };
 
-  const handleNumberInput =(e)=> {
-    setNewNumber(e.target.value)
-  }
+  const handleNumberInput = (e) => {
+    setNewNumber(e.target.value);
+  };
 
-  const addPerson =(newPerson)=> {
+  const addPerson = (newPerson) => {
     personsService
-    .create(newPerson)
-    .then(response => {
-        setPersons([...persons, response])
-        setNewName("")
-        setNewNumber("")
-        handleError('Person is added.');
-    })
-    .catch(error => {
-      handleError('Error adding person.');
-    });
-  }
+      .create(newPerson)
+      .then((response) => {
+        setPersons([...persons, response]);
+        setNewName('');
+        setNewNumber('');
+        showMessage('Person is added.', 'success');
+      })
+      .catch(() => {
+        showMessage('Error adding person.', 'error');
+      });
+  };
 
-  const updatePerson =(person, newPerson)=> {
+  const updatePerson = (person, newPerson) => {
     personsService
       .update(person.id, newPerson)
-      .then(response => {
-        setPersons(persons.map(p => p.id === person.id ? response : p))
-        setNewName("")
-        setNewNumber("")
-        handleError('Number is updated.');
-    })
-    .catch(error => {
-      handleError('Error updating person.');
-    });
-  }
+      .then((response) => {
+        setPersons(
+          persons.map((p) => (p.id === person.id ? response : p))
+        );
+        setNewName('');
+        setNewNumber('');
+        showMessage('Number is updated.', 'success');
+      })
+      .catch(() => {
+        showMessage('Error updating person.', 'error');
+      });
+  };
 
-  const onSubmit =(e)=> {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const newPerson = {name: newName, number: newNumber}
-    if (persons.some(person => person.name === newName)) {
-      const person = persons.find(p =>  p.name === newName);
-      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
-        {
+    const newPerson = { name: newName, number: newNumber };
+
+    if (persons.some((person) => person.name === newName)) {
+      const person = persons.find((p) => p.name === newName);
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
         updatePerson(person, newPerson);
       }
-    }
-    else
+    } else {
       addPerson(newPerson);
-  }
+    }
+  };
 
-  const filteredNames = persons.filter(person => person.name && person.name.toLowerCase().includes(inputFilter.toLowerCase()))
+  const filteredNames = persons.filter((person) =>
+    person.name.toLowerCase().includes(inputFilter.toLowerCase())
+  );
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Error message={errorMessage} />
+      <Notification message={message.text} type={message.type} />
       <InputField
         type="text"
-        label='filter shown with'
+        label="Filter shown with"
         value={inputFilter}
         onChange={handleFilterInput}
-        id="filter"/>
+        id="filter"
+      />
       <h3>Add a new</h3>
       <PersonForm
         onSubmit={onSubmit}
         newName={newName}
         handleNameInput={handleNameInput}
         newNumber={newNumber}
-        handleNumberInput={handleNumberInput}/>
+        handleNumberInput={handleNumberInput}
+      />
       <h2>Numbers</h2>
-      <Persons filteredNames={filteredNames} deletePerson={deletePerson}/>
+      {inputFilter.trim() && filteredNames.length === 0 ? (
+        <p className="notification error">Not found.</p>
+      ) : (
+        <Persons filteredNames={filteredNames} deletePerson={deletePerson} />
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
