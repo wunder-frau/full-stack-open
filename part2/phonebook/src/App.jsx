@@ -87,7 +87,8 @@ function App() {
         showMessage('Number is updated.', 'success');
       })
       .catch(() => {
-        showMessage('Error updating person.', 'error');
+        showMessage(`the person '${person.name}' was already deleted from server`, 'error');
+        setPersons(persons.filter((p) => p.id !== person.id));
       });
   };
 
