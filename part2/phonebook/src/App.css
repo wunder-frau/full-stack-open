@@ -80,13 +80,13 @@ button {
 }
 
 .notification.error {
-  color: lavenderblush;
-  background: lightgrey;
-  border: 3px solid lavenderblush;;
+  color: #4c1929;
+  background: lightcoral;
+  border: 3px solid #4c1929;
 }
 
 .notification.success {
-  color: #d5f6dc;
-  background: lightgrey;
-  border: 3px solid #c3e6cb;
+  color: #77698b;
+  background: lightgreen;
+  border: 3px solid #8a78a4;
 }
