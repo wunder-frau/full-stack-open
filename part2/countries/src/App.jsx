@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import countryService from './countryService.jsx';
+import Countries from './Countries.jsx';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -23,13 +24,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <p>
-          {countries.map((c, i) => (
-            <li key={i}>
-              <span>{c.name.common}</span>
-            </li>
-          ))}
-        </p>
+        <Countries countries={countries}/>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
