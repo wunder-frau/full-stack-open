@@ -35,21 +35,19 @@ function App() {
       <h1>Vite + React</h1>
       <InputField
         type="text"
-        label="Filter shown with"
+        label="find countries"
         value={inputFilter}
         onChange={handleFilterInput}
         id="filter"
       />
       <div className="card">
-        {inputFilter ? (
-          filteredCountries.length > 0 ? (
-            <Countries countries={filteredCountries} />
-          ) : (
-            <p className="notification error">Not found.</p>
-          )
-        ) : (
-          <p>Please enter a filter to search for countries.</p>
-        )}
+        {inputFilter
+        ? (filteredCountries.length > 0
+          ? (filteredCountries.length > 10
+            ? <p>Too many matches, specify another filter.</p>
+            : <Countries countries={filteredCountries}/>)
+          : <p>Not found.</p>)
+        : (<p>Please enter a filter to search for countries.</p>)}
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more

@@ -4,7 +4,7 @@ const Countries = ({countries}) => {
             <ul>
                 {countries.map((c, i) => (
                     <li key={i}>
-                        <span>{c.name.common}</span>
+                        <h1>{c.name.common}</h1>
                     </li>
                 ))
                 }
