@@ -17,11 +17,9 @@ const Countries = ({countries}) => {
           ) : (
             <ul>
               {countries.map((c, i) => (
-                <li key={i}>
-                  <span>
-                    <h1>{c.name.common}</h1>
+                <li key={i} className="country-item">
+                    <h1 className="country-name">{c.name.common}</h1>
                     <Button label="more" type="more" onClick={() => handleClick(c)} />
-                  </span>
                 </li>
               ))}
             </ul>
