@@ -3,11 +3,11 @@ import './App.css'
 import countryService from './countryService.jsx';
 import Countries from './Countries.jsx';
 import InputField from './InputField.jsx';
+import CountriesExtended from './CountriesExtended.jsx';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
-
 
   const handleFilterInput = (e) => {
     setInputFilter(e.target.value);
@@ -28,11 +28,44 @@ function App() {
     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
   );
 
+  let cond;
+
+  if (!inputFilter.trim()) {
+    cond = 'noFilter';
+  } else if (filteredCountries.length === 0) {
+    cond = 'noMatches';
+  } else if (filteredCountries.length > 10) {
+    cond = 'tooMany';
+  } else if (filteredCountries.length === 1) {
+    cond = 'ifOne'
+  } else {
+    cond = 'someMatches';
+  }
+
+  let content;
+
+  switch (cond) {
+    case 'noFilter':
+      content = <p>Please enter a filter to search for countries.</p>;
+      break;
+    case 'noMatches':
+      content = <p className="notification error">Not found.</p>;
+      break;
+    case 'tooMany':
+      content = <p>Too many matches, specify another filter.</p>;
+      break;
+    case 'someMatches':
+      content = <Countries countries={filteredCountries} />;
+      break;
+    case 'ifOne':
+      content = <CountriesExtended countries={filteredCountries} />
+      break;
+    default:
+      content = null;
+  }
+
   return (
     <>
-      <div>
-      </div>
-      <h1>Vite + React</h1>
       <InputField
         type="text"
         label="find countries"
@@ -41,17 +74,8 @@ function App() {
         id="filter"
       />
       <div className="card">
-        {inputFilter
-        ? (filteredCountries.length > 0
-          ? (filteredCountries.length > 10
-            ? <p>Too many matches, specify another filter.</p>
-            : <Countries countries={filteredCountries}/>)
-          : <p>Not found.</p>)
-        : (<p>Please enter a filter to search for countries.</p>)}
+        {content}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
