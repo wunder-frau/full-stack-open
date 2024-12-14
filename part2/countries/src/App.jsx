@@ -4,10 +4,12 @@ import countryService from './countryService.jsx';
 import Countries from './Countries.jsx';
 import InputField from './InputField.jsx';
 import CountriesExtended from './CountriesExtended.jsx';
+import forcastService from './forcastService.jsx';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
+  const [forcast, setForcast] = useState([]);
 
   const handleFilterInput = (e) => {
     setInputFilter(e.target.value);
@@ -17,18 +19,32 @@ function App() {
     countryService
       .getAll()
       .then((response) => {
+        console.log("Countries fetched:", response);
         setCountries(response);
       })
-      .catch(error =>
-        console.log("err", error)
-      )
-  }, [])
+      .catch((error) => console.log("Error fetching countries:", error));
+  }, []);
 
+  
   const filteredCountries = countries.filter((c) =>
     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
-  );
+);
 
-  let cond;
+useEffect(() => {
+  if (filteredCountries.length === 1) {
+    const country = filteredCountries[0];
+    console.log("Selected Country:", country);
+
+    if (country.capitalInfo?.latlng) {
+      const [lat, lng] = country.capitalInfo.latlng;
+      console.log(`Coordinates for ${country.name.common}:`, lat, lng);
+    } else {
+      console.log("No coordinates found for the selected country.");
+    }
+  }
+}, [filteredCountries]);
+
+let cond;
 
   if (!inputFilter.trim()) {
     cond = 'noFilter';
@@ -74,6 +90,7 @@ function App() {
         id="filter"
       />
       <div className="card">
+      {console.log("Filtered Countries:", filteredCountries)}
         {content}
       </div>
     </>
