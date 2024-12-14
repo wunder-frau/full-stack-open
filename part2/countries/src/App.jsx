@@ -10,6 +10,7 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
   const [forcast, setForcast] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
   const handleFilterInput = (e) => {
     setInputFilter(e.target.value);
@@ -25,24 +26,41 @@ function App() {
       .catch((error) => console.log("Error fetching countries:", error));
   }, []);
 
-  
-  const filteredCountries = countries.filter((c) =>
-    c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
-);
+  // const filteredCountries = useMemo(() => {
+  //   return countries.filter((c) =>
+  //     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
+  //   );
+  // }, [countries, inputFilter]);
+
+  useEffect(() => {
+    const filtered = countries.filter((c) =>
+      c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
+    );
+    setFilteredCountries(filtered);
+  }, [countries, inputFilter]);
+//   const filteredCountries = countries.filter((c) =>
+//     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
+// );
 
 useEffect(() => {
   if (filteredCountries.length === 1) {
     const country = filteredCountries[0];
-    console.log("Selected Country:", country);
-
+    console.log("asdadasdas",country)
     if (country.capitalInfo?.latlng) {
       const [lat, lng] = country.capitalInfo.latlng;
-      console.log(`Coordinates for ${country.name.common}:`, lat, lng);
-    } else {
-      console.log("No coordinates found for the selected country.");
+      console.log(`Fetching forecast for ${country.name.common} at [${lat}, ${lng}]`);
+
+      forcastService
+        .getCurrent(lat, lng)
+        .then((response) => {
+          setForcast(response);
+          console.log("Weather Forecast:", response);
+        })
+        .catch((error) => console.log("Error fetching forecast:", error));
     }
   }
 }, [filteredCountries]);
+
 
 let cond;
 
@@ -74,8 +92,19 @@ let cond;
       content = <Countries countries={filteredCountries} />;
       break;
     case 'ifOne':
-      content = <CountriesExtended countries={filteredCountries} />
-      break;
+        content = (
+          <>
+            <CountriesExtended countries={filteredCountries} />
+            {forcast && (
+              <div>
+                <h3>Weather Forecast</h3>
+                <p>Temperature: {forcast.main?.temp || 'N/A'}°C</p>
+                <p>Weather: {forcast.weather?.[0]?.description || 'N/A'}</p>
+              </div>
+            )}
+          </>
+        );
+        break;
     default:
       content = null;
   }
