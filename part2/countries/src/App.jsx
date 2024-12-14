@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import './App.css'
 import countryService from './countryService.jsx';
 import Countries from './Countries.jsx';
@@ -10,7 +10,6 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
   const [forcast, setForcast] = useState([]);
-  const [filteredCountries, setFilteredCountries] = useState([]);
 
   const handleFilterInput = (e) => {
     setInputFilter(e.target.value);
@@ -26,18 +25,12 @@ function App() {
       .catch((error) => console.log("Error fetching countries:", error));
   }, []);
 
-  // const filteredCountries = useMemo(() => {
-  //   return countries.filter((c) =>
-  //     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
-  //   );
-  // }, [countries, inputFilter]);
-
-  useEffect(() => {
-    const filtered = countries.filter((c) =>
+  const filteredCountries = useMemo(() => {
+    return countries.filter((c) =>
       c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
     );
-    setFilteredCountries(filtered);
   }, [countries, inputFilter]);
+
 //   const filteredCountries = countries.filter((c) =>
 //     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
 // );
