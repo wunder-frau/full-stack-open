@@ -36,7 +36,7 @@ function App() {
 // );
 
 useEffect(() => {
-  if (filteredCountries.length === 1) {
+  if (filteredCountries.length > 0) {
     const country = filteredCountries[0];
     console.log("asdadasdas",country)
     if (country.capitalInfo?.latlng) {
@@ -87,7 +87,7 @@ let cond;
     case 'ifOne':
         content = (
           <>
-            <CountriesExtended countries={filteredCountries} />
+            <CountriesExtended countries={filteredCountries} forcast={forcast} />
             {forcast && (
               <div>
                 <h3>Weather Forecast</h3>
