@@ -4,6 +4,9 @@ const api_key = import.meta.env.VITE_FORCAST_API
 const baseUrl = 'https://api.openweathermap.org/data/2.5'
 
 const getCurrent = (lat, lng) => {
+  console.log("-->>", api_key);
+  console.log("--<<<<<",import.meta.env);
+
     if (!api_key) {
       console.error("API key is missing");
       return Promise.reject("API key is missing");
