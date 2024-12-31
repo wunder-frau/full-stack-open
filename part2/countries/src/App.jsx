@@ -82,7 +82,7 @@ let cond;
       content = <p>Too many matches, specify another filter.</p>;
       break;
     case 'someMatches':
-      content = <Countries countries={filteredCountries} />;
+      content = <Countries countries={filteredCountries} con={countries}/>;
       break;
     case 'ifOne':
         content = (
