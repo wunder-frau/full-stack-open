@@ -17,13 +17,6 @@ const CountriesExtended = ({ countries }) => {
               <p>
                 <img src={c.flags.png} alt={c.flags.alt} />
               </p>
-              {c.forcast && (
-                <div>
-                  <h3>Weather Forecast</h3>
-                  <p>Temperature: {c.forcast.main?.temp || 'N/A'}°C</p>
-                  <p>Weather: {c.forcast.weather?.[0]?.description || 'N/A'}</p>
-                </div>
-              )}
             </li>
           ))}
         </ul>
