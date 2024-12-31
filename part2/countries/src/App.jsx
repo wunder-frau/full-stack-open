@@ -85,18 +85,7 @@ let cond;
       content = <Countries countries={filteredCountries}/>;
       break;
     case 'ifOne':
-        content = (
-          <>
-            <CountriesExtended countries={filteredCountries} forcast={forcast} />
-            {forcast && (
-              <div>
-                <h3>Weather Forecast</h3>
-                <p>Temperature: {forcast.main?.temp || 'N/A'}°C</p>
-                <p>Weather: {forcast.weather?.[0]?.description || 'N/A'}</p>
-              </div>
-            )}
-          </>
-        );
+        content = <CountriesExtended countries={filteredCountries} forcast={forcast} />
         break;
     default:
       content = null;

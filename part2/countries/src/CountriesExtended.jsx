@@ -1,8 +1,13 @@
-const CountriesExtended = ({ countries }) => {
+// import CountryDetales from "./CountryDetails";
+
+const CountriesExtended = ({ countries, forcast }) => {
     return (
       <div>
         <ul>
           {countries.map((c, i) => (
+            // <li key={i}>
+            //   <CountryDetales country={c}/>
+            // </li>
             <li key={i}>
               <h1>{c.name.common}</h1>
               <h2>Capital: {c.capital}</h2>
@@ -17,6 +22,13 @@ const CountriesExtended = ({ countries }) => {
               <p>
                 <img src={c.flags.png} alt={c.flags.alt} />
               </p>
+              {forcast && (
+              <div>
+                <h3>Weather Forecast</h3>
+                <p>Temperature: {forcast.main?.temp || 'N/A'}°C</p>
+                <p>Weather: {forcast.weather?.[0]?.description || 'N/A'}</p>
+              </div>
+            )}
             </li>
           ))}
         </ul>
