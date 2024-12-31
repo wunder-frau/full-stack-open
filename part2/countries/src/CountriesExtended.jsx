@@ -27,6 +27,7 @@ const CountriesExtended = ({ countries, forcast }) => {
                 <h3>Weather Forecast</h3>
                 <p>Temperature: {forcast.main?.temp || 'N/A'}°C</p>
                 <p>Weather: {forcast.weather?.[0]?.description || 'N/A'}</p>
+                <p><img src={`https://openweathermap.org/img/wn/${forcast.weather?.[0]?.icon}@2x.png`} alt="icn"/></p>
                 <p>Wind: {forcast.wind.speed || 'N/A'} m/s</p>
               </div>
             )}
