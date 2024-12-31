@@ -4,9 +4,6 @@ const api_key = import.meta.env.VITE_FORCAST_API
 const baseUrl = 'https://api.openweathermap.org/data/2.5'
 
 const getCurrent = (lat, lng) => {
-  console.log("-->>", api_key);
-  console.log("--<<<<<",import.meta.env);
-
     if (!api_key) {
       console.error("API key is missing");
       return Promise.reject("API key is missing");
@@ -17,8 +14,7 @@ const getCurrent = (lat, lng) => {
     }
     
     const url = `${baseUrl}/weather?lat=${lat}&lon=${lng}&appid=${api_key}&units=metric`;
-    console.log(`Making request to: ${url}`);
-    
+
     return axios
       .get(url)
       .then((response) => response.data)

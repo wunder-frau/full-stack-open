@@ -7,13 +7,11 @@ const Countries = ({ countries }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
 
   const fetchWeather = (country) => {
-    console.log("Fetching weather for:", country);
     if (country.capitalInfo?.latlng) {
       const [lat, lng] = country.capitalInfo.latlng;
       return forcastService
         .getCurrent(lat, lng)
         .then((response) => {
-          console.log("API response received:", response);
           country.forcast = response;
           return country;
         })

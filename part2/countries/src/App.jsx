@@ -19,7 +19,6 @@ function App() {
     countryService
       .getAll()
       .then((response) => {
-        console.log("Countries fetched:", response);
         setCountries(response);
       })
       .catch((error) => console.log("Error fetching countries:", error));
@@ -31,23 +30,15 @@ function App() {
     );
   }, [countries, inputFilter]);
 
-//   const filteredCountries = countries.filter((c) =>
-//     c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
-// );
-
 useEffect(() => {
   if (filteredCountries.length > 0) {
     const country = filteredCountries[0];
-    console.log("asdadasdas",country)
     if (country.capitalInfo?.latlng) {
       const [lat, lng] = country.capitalInfo.latlng;
-      console.log(`Fetching forecast for ${country.name.common} at [${lat}, ${lng}]`);
-
       forcastService
         .getCurrent(lat, lng)
         .then((response) => {
           setForcast(response);
-          console.log("Weather Forecast:", response);
         })
         .catch((error) => console.log("Error fetching forecast:", error));
     }
@@ -101,7 +92,6 @@ let cond;
         id="filter"
       />
       <div className="card">
-      {console.log("Filtered Countries:", filteredCountries)}
         {content}
       </div>
     </>
