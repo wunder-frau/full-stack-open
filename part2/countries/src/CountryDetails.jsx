@@ -19,6 +19,8 @@ const CountryDetales = ({ country }) => (
                     <h3>Weather Forecast</h3>
                     <p>Temperature: {country.forcast.main?.temp || 'N/A'}°C</p>
                     <p>Weather: {country.forcast.weather?.[0]?.description || 'N/A'}</p>
+                    <p><img src={`https://openweathermap.org/img/wn/${country.forcast.weather?.[0]?.icon}@2x.png`} alt="icn"/></p>
+                    <p>Wind: {country.forcast.wind.speed || 'N/A'} m/s</p>
                     </div>
                 )}
         </ul>
