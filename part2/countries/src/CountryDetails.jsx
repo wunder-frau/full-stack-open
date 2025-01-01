@@ -30,7 +30,6 @@ const CountryDetales = ({ country }) => {
                     <p>
                         <img src={country.flags.png} alt={country.flags.alt} />
                     </p>
-                    {console.log("CountryDetales", country)}
                     {!forcast ? (
                         <p>Loading forecast...</p>
                     ) : (

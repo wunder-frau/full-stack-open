@@ -1,41 +1,15 @@
 import { useState } from 'react';
 import Button from "./Button.jsx";
 import CountryDetales from './CountryDetails.jsx';
-// import forcastService from './forcastService.jsx';
 
 const Countries = ({ countries }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
-
-  // const fetchWeather = (country) => {
-  //   if (country.capitalInfo?.latlng) {
-  //     const [lat, lng] = country.capitalInfo.latlng;
-  //     return forcastService
-  //       .getCurrent(lat, lng)
-  //       .then((response) => {
-  //         country.forcast = response;
-  //         return country;
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching forecast:", error);
-  //         return country;
-  //       });
-  //   }
-  //   console.warn("No coordinates available for this country:", country);
-  //   return Promise.resolve(country);
-  // };
 
   const handleClick = (country) => {
     if (selectedCountries.some((c) => c.name.common === country.name.common)) {
       return;
     }
     setSelectedCountries((prev) => [...prev, country])
-    // fetchWeather(country)
-    //   .then((updCountry) => {
-    //     setSelectedCountries((prev) => [...prev, updCountry])
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching forecast:", error);
-    //   });
   }
 
   const handleBackClick =()=> {

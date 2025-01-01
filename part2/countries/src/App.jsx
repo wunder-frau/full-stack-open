@@ -4,12 +4,10 @@ import countryService from './countryService.jsx';
 import Countries from './Countries.jsx';
 import InputField from './InputField.jsx';
 import CountriesExtended from './CountriesExtended.jsx';
-// import forcastService from './forcastService.jsx';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
-  // const [forcast, setForcast] = useState([]);
 
   const handleFilterInput = (e) => {
     setInputFilter(e.target.value);
@@ -29,22 +27,6 @@ function App() {
       c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
     );
   }, [countries, inputFilter]);
-
-// useEffect(() => {
-//   if (filteredCountries.length > 0) {
-//     const country = filteredCountries[0];
-//     if (country.capitalInfo?.latlng) {
-//       const [lat, lng] = country.capitalInfo.latlng;
-//       forcastService
-//         .getCurrent(lat, lng)
-//         .then((response) => {
-//           setForcast(response);
-//         })
-//         .catch((error) => console.log("Error fetching forecast:", error));
-//     }
-//   }
-// }, [filteredCountries]);
-
 
 let cond;
 
