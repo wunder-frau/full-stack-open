@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import './App.css'
 import countryService from './countryService.jsx';
 import Countries from './Countries.jsx';
@@ -19,16 +19,16 @@ function App() {
       .then((response) => {
         setCountries(response);
       })
-      .catch(error =>
-        console.log("err", error)
-      )
-  }, [])
+      .catch((error) => console.log("Error fetching countries:", error));
+  }, []);
 
-  const filteredCountries = countries.filter((c) =>
-    c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
-  );
+  const filteredCountries = useMemo(() => {
+    return countries.filter((c) =>
+      c.name.common.toLowerCase().includes(inputFilter.toLowerCase())
+    );
+  }, [countries, inputFilter]);
 
-  let cond;
+let cond;
 
   if (!inputFilter.trim()) {
     cond = 'noFilter';
@@ -55,11 +55,13 @@ function App() {
       content = <p>Too many matches, specify another filter.</p>;
       break;
     case 'someMatches':
-      content = <Countries countries={filteredCountries} />;
+      {
+        content = <Countries countries={filteredCountries} />;
+      }
       break;
     case 'ifOne':
-      content = <CountriesExtended countries={filteredCountries} />
-      break;
+        content = <CountriesExtended countries={filteredCountries} />
+        break;
     default:
       content = null;
   }
