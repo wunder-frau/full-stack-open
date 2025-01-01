@@ -3,7 +3,7 @@ import Button from "./Button.jsx";
 import CountryDetales from './CountryDetails.jsx';
 // import forcastService from './forcastService.jsx';
 
-const Countries = ({ countries, forcast }) => {
+const Countries = ({ countries }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
 
   // const fetchWeather = (country) => {
@@ -24,11 +24,10 @@ const Countries = ({ countries, forcast }) => {
   //   return Promise.resolve(country);
   // };
 
-  const handleClick = (country, forcast) => {
+  const handleClick = (country) => {
     if (selectedCountries.some((c) => c.name.common === country.name.common)) {
       return;
     }
-    country.forcast = forcast;
     setSelectedCountries((prev) => [...prev, country])
     // fetchWeather(country)
     //   .then((updCountry) => {
@@ -60,7 +59,7 @@ const Countries = ({ countries, forcast }) => {
           {countries.map((c, i) => (
             <li key={i} className="country-item">
               <h1 className="country-name">{c.name.common}</h1>
-              <Button label="more" type="more" onClick={() => handleClick(c, forcast)} />
+              <Button label="more" type="more" onClick={() => handleClick(c)} />
             </li>
           ))}
         </ul>

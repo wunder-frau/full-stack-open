@@ -4,12 +4,12 @@ import countryService from './countryService.jsx';
 import Countries from './Countries.jsx';
 import InputField from './InputField.jsx';
 import CountriesExtended from './CountriesExtended.jsx';
-import forcastService from './forcastService.jsx';
+// import forcastService from './forcastService.jsx';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
-  const [forcast, setForcast] = useState([]);
+  // const [forcast, setForcast] = useState([]);
 
   const handleFilterInput = (e) => {
     setInputFilter(e.target.value);
@@ -30,20 +30,20 @@ function App() {
     );
   }, [countries, inputFilter]);
 
-useEffect(() => {
-  if (filteredCountries.length > 0) {
-    const country = filteredCountries[0];
-    if (country.capitalInfo?.latlng) {
-      const [lat, lng] = country.capitalInfo.latlng;
-      forcastService
-        .getCurrent(lat, lng)
-        .then((response) => {
-          setForcast(response);
-        })
-        .catch((error) => console.log("Error fetching forecast:", error));
-    }
-  }
-}, [filteredCountries]);
+// useEffect(() => {
+//   if (filteredCountries.length > 0) {
+//     const country = filteredCountries[0];
+//     if (country.capitalInfo?.latlng) {
+//       const [lat, lng] = country.capitalInfo.latlng;
+//       forcastService
+//         .getCurrent(lat, lng)
+//         .then((response) => {
+//           setForcast(response);
+//         })
+//         .catch((error) => console.log("Error fetching forecast:", error));
+//     }
+//   }
+// }, [filteredCountries]);
 
 
 let cond;
@@ -73,10 +73,12 @@ let cond;
       content = <p>Too many matches, specify another filter.</p>;
       break;
     case 'someMatches':
-      content = <Countries countries={filteredCountries} forcast={forcast} />;
+      {
+        content = <Countries countries={filteredCountries} />;
+      }
       break;
     case 'ifOne':
-        content = <CountriesExtended countries={filteredCountries} forcast={forcast} />
+        content = <CountriesExtended countries={filteredCountries} />
         break;
     default:
       content = null;
