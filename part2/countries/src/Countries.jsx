@@ -1,40 +1,42 @@
 import { useState } from 'react';
 import Button from "./Button.jsx";
 import CountryDetales from './CountryDetails.jsx';
-import forcastService from './forcastService.jsx';
+// import forcastService from './forcastService.jsx';
 
-const Countries = ({ countries }) => {
+const Countries = ({ countries, forcast }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
 
-  const fetchWeather = (country) => {
-    if (country.capitalInfo?.latlng) {
-      const [lat, lng] = country.capitalInfo.latlng;
-      return forcastService
-        .getCurrent(lat, lng)
-        .then((response) => {
-          country.forcast = response;
-          return country;
-        })
-        .catch((error) => {
-          console.error("Error fetching forecast:", error);
-          return country;
-        });
-    }
-    console.warn("No coordinates available for this country:", country);
-    return Promise.resolve(country);
-  };
+  // const fetchWeather = (country) => {
+  //   if (country.capitalInfo?.latlng) {
+  //     const [lat, lng] = country.capitalInfo.latlng;
+  //     return forcastService
+  //       .getCurrent(lat, lng)
+  //       .then((response) => {
+  //         country.forcast = response;
+  //         return country;
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching forecast:", error);
+  //         return country;
+  //       });
+  //   }
+  //   console.warn("No coordinates available for this country:", country);
+  //   return Promise.resolve(country);
+  // };
 
-  const handleClick = (country) => {
+  const handleClick = (country, forcast) => {
     if (selectedCountries.some((c) => c.name.common === country.name.common)) {
       return;
     }
-    fetchWeather(country)
-      .then((updCountry) => {
-        setSelectedCountries((prev) => [...prev, updCountry])
-      })
-      .catch((error) => {
-        console.error("Error fetching forecast:", error);
-      });
+    country.forcast = forcast;
+    setSelectedCountries((prev) => [...prev, country])
+    // fetchWeather(country)
+    //   .then((updCountry) => {
+    //     setSelectedCountries((prev) => [...prev, updCountry])
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching forecast:", error);
+    //   });
   }
 
   const handleBackClick =()=> {
@@ -58,7 +60,7 @@ const Countries = ({ countries }) => {
           {countries.map((c, i) => (
             <li key={i} className="country-item">
               <h1 className="country-name">{c.name.common}</h1>
-              <Button label="more" type="more" onClick={() => handleClick(c)} />
+              <Button label="more" type="more" onClick={() => handleClick(c, forcast)} />
             </li>
           ))}
         </ul>
