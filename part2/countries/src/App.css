@@ -53,12 +53,10 @@ ul {
   align-items: center;
   gap: 10px;
   padding: 8px 0;
-  border: 1px solid purple;
 }
 
 .country-name {
   grid-column: 1;
-  border: 1px solid greenyellow;
 }
 
 .country-button {
